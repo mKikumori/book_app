@@ -57,7 +57,6 @@ class RegisterView extends StatelessWidget {
         CustomButtonWidget(
           text: 'Continue',
           width: MediaQuery.of(context).size.width * 0.8,
-          accent: true,
           onPressed: () async {
             final name = nameController.text.trim();
             final lastName = lastNameController.text.trim();
