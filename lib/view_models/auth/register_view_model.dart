@@ -2,6 +2,7 @@ import 'package:book_app/services/user_srevice.dart';
 import 'package:book_app/views/app/home_view.dart';
 import 'package:book_app/views/auth/register_view.dart';
 import 'package:book_app/services/auth_service.dart';
+import 'package:book_app/widgets/custom_nav_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -89,7 +90,7 @@ class RegistrationViewModel extends ChangeNotifier {
 
       Navigator.push(
         context,
-        CupertinoPageRoute(builder: (_) => HomeView()),
+        CupertinoPageRoute(builder: (_) => CustomNavBar()),
       );
       // Registration successful, you can perform additional actions here
     } on FirebaseAuthException catch (e) {

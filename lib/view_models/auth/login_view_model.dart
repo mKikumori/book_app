@@ -1,5 +1,6 @@
 import 'package:book_app/views/app/home_view.dart';
 import 'package:book_app/views/auth/login_view.dart';
+import 'package:book_app/widgets/custom_nav_bar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:book_app/services/auth_service.dart';
@@ -46,7 +47,7 @@ class LoginViewModel extends ChangeNotifier {
       await _authService.signIn(email: _email!, password: _password!);
       Navigator.push(
         context,
-        CupertinoPageRoute(builder: (_) => HomeView()),
+        CupertinoPageRoute(builder: (_) => CustomNavBar()),
       );
     } on FirebaseException catch (e) {
       // Handle login error (e.g., show a message to the user)
