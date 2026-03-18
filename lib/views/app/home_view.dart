@@ -4,19 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:book_app/services/auth_service.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({Key? key}) : super(key: key);
-  final AuthService _authService = AuthService();
-
-  Future<void> signingOut(BuildContext context) async {
-    try {
-      await _authService.signOut();
-      Navigator.of(context, rootNavigator: true).pushReplacement(
-        CupertinoPageRoute(builder: (context) => const LoginView()),
-      );
-    } catch (e) {
-      debugPrint("Error signing out: $e");
-    }
-  }
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +13,8 @@ class HomeView extends StatelessWidget {
           middle: Text('Home'),
         ),
         child: Center(
-          child: CustomButtonWidget(
-              text: "Logout",
-              width: MediaQuery.of(context).size.width * 0.8,
-              onPressed: () async {
-                await signingOut(context);
-              }),
-        ));
+            child: Column(
+          children: [],
+        )));
   }
 }

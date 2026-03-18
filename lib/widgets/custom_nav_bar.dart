@@ -15,17 +15,20 @@ class CustomNavBar extends StatelessWidget {
     List<BottomNavigationBarItem> _buildNavBarItems() {
       return [
         BottomNavigationBarItem(
-          icon: _NavBarIcon(icon: CupertinoIcons.home),
-          label: 'Home',
+          icon: _NavBarIcon(icon: CupertinoIcons.clock),
+          label: 'Ler',
         ),
         BottomNavigationBarItem(
-          icon: _NavBarIcon(icon: CupertinoIcons.search),
-          label: 'Search',
+          icon: _NavBarIcon(icon: CupertinoIcons.list_bullet),
+          label: 'Acompanhar',
         ),
         BottomNavigationBarItem(
-          icon: _NavBarIcon(icon: CupertinoIcons.heart),
-          label: 'Favourites',
+          icon: _NavBarIcon(icon: CupertinoIcons.calendar),
+          label: 'Planejar',
         ),
+        BottomNavigationBarItem(
+            icon: _NavBarIcon(icon: CupertinoIcons.dot_square_fill),
+            label: 'Mais')
       ];
     }
 
@@ -39,9 +42,12 @@ class CustomNavBar extends StatelessWidget {
         case 0:
           return HomeView();
         /*case 1:
-          return SearchView();
+          return MetricsView();
         case 2:
-          return FavoritesView();*/
+          return PlanningView();
+        case 3:
+          return MoreView();
+        */
         default:
           return HomeView();
       }

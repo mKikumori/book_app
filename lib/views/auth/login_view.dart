@@ -53,7 +53,7 @@ class LoginView extends StatelessWidget {
             );
           },
         ),
-        /*const SizedBox(height: 10),
+        const SizedBox(height: 10),
         CustomButtonWidget(
             text: "Forgot Password",
             width: MediaQuery.of(context).size.width * 0.8,
@@ -62,7 +62,7 @@ class LoginView extends StatelessWidget {
                 context,
                 CupertinoPageRoute(builder: (_) => const PswRecoveryView()),
               );
-            }),*/
+            }),
       ],
     )));
   }
