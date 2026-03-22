@@ -41,6 +41,22 @@ class LoginView extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.8,
             onPressed: () async {
               await viewModel.login(context);
+
+              showCupertinoDialog(
+                context: context,
+                builder: (_) => CupertinoAlertDialog(
+                  title: Text(
+                      'Login ${viewModel.statusMessage?.contains('successful') == true ? 'Successful' : 'Failed'}'),
+                  content: Text(viewModel.statusMessage ?? ''),
+                  actions: [
+                    CupertinoDialogAction(
+                      isDefaultAction: true,
+                      child: const Text('OK'),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+              );
             }),
         const SizedBox(height: 10),
         CustomButtonWidget(

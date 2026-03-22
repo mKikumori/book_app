@@ -9,10 +9,12 @@ class LoginViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  String? _statusMessage;
 
   bool _isLoading = false;
   String? _email;
   String? _password;
+  String? get statusMessage => _statusMessage;
 
   String? get email => _email;
   String? get password => _password;
@@ -45,18 +47,23 @@ class LoginViewModel extends ChangeNotifier {
     setLoading(true);
     try {
       await _authService.signIn(email: _email!, password: _password!);
-      Navigator.push(
-        context,
-        CupertinoPageRoute(builder: (_) => CustomNavBar()),
-      );
+      if (_authService.currentUser != null) {
+        _statusMessage =
+            'Login successful for ${_authService.currentUser!.email}!';
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(builder: (_) => const CustomNavBar()),
+        );
+      }
     } on FirebaseException catch (e) {
-      // Handle login error (e.g., show a message to the user)
-      print('Login error: ${e.message}');
+      _statusMessage = e.message ?? 'Something went wrong.';
       Navigator.pushAndRemoveUntil(
         context,
         CupertinoPageRoute(builder: (_) => const LoginView()),
         (route) => false,
       );
+    } catch (e) {
+      _statusMessage = 'Unexpected error: $e';
     } finally {
       setLoading(false);
     }

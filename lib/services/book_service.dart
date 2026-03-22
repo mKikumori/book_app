@@ -19,6 +19,18 @@ class BookService {
     }
   }
 
+  ///
+  Stream<List<custom.Book>> getBooks() {
+    return FirebaseFirestore.instance
+        .collection('book_collection')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return custom.Book.fromFirestore(doc);
+      }).toList();
+    });
+  }
+
   /// Saves a new Book to book_collections with default settings
   Future<void> saveNewBook({
     required String uid,

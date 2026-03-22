@@ -72,6 +72,22 @@ class RegisterView extends StatelessWidget {
                 password: password);
 
             await user.register(password: password, context: context);
+
+            showCupertinoDialog(
+              context: context,
+              builder: (_) => CupertinoAlertDialog(
+                title: Text(
+                    'Login ${viewModel.statusMessage?.contains('successful') == true ? 'Successful' : 'Failed'}'),
+                content: Text(viewModel.statusMessage ?? ''),
+                actions: [
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    child: const Text('OK'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            );
           },
         ),
         const SizedBox(height: 12),
