@@ -1,5 +1,6 @@
 import 'package:book_app/views/auth/login_view.dart';
 import 'package:book_app/views/auth/register_view.dart';
+import 'package:book_app/widgets/background_widget.dart';
 import 'package:book_app/widgets/custom_button_widget.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -24,33 +25,32 @@ class LandingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CupertinoPageScaffold(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome to Book App',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+    return BackgroundWidget(
+        child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Welcome to Book App',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
-            SizedBox(height: 16),
-            CustomButtonWidget(
-              text: 'Login',
-              nextPage: const LoginView(),
-              width: 200.0,
-            ),
-            SizedBox(height: 8),
-            CustomButtonWidget(
-              text: 'Register',
-              nextPage: const RegisterView(),
-              width: 200.0,
-            )
-          ],
-        ),
+          ),
+          SizedBox(height: 16),
+          CustomButtonWidget(
+            text: 'Login',
+            nextPage: const LoginView(),
+            width: 200.0,
+          ),
+          SizedBox(height: 8),
+          CustomButtonWidget(
+            text: 'Register',
+            nextPage: const RegisterView(),
+            width: 200.0,
+          )
+        ],
       ),
-    );
+    ));
   }
 }
