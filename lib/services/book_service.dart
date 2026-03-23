@@ -11,7 +11,12 @@ class BookService {
   /// Retrieves the book data for a given UID from book_collection
   Future<custom.Book?> getBook(String uid) async {
     try {
-      final doc = await _firestore.collection('book_collection').doc(uid).get();
+      final doc = await _firestore
+          .collection('userprofiles')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('book_collection')
+          .doc(uid)
+          .get();
       if (!doc.exists) return null;
       return custom.Book.fromFirestore(doc);
     } catch (e) {
@@ -19,9 +24,11 @@ class BookService {
     }
   }
 
-  ///
+  /// Streams all books from book_collection in real-time
   Stream<List<custom.Book>> getBooks() {
     return FirebaseFirestore.instance
+        .collection('userprofiles')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('book_collection')
         .snapshots()
         .map((snapshot) {
@@ -33,23 +40,38 @@ class BookService {
 
   /// Saves a new Book to book_collections with default settings
   Future<void> saveNewBook({
-    required String uid,
     required String name,
     required int totalPageCount,
+    required String userId,
+    String? authorName,
+    String? description,
+    String? photoUrl,
+    int? currentPage,
   }) async {
     try {
       final now = FieldValue.serverTimestamp();
-      await _firestore.collection('book_collection').doc(uid).set({
+
+      await _firestore
+          .collection('userprofiles')
+          .doc(userId)
+          .collection('book_collection')
+          .add({
         'created_at': now,
         'updated_at': now,
-        'photo_url': null,
-        'author_name': null,
-        'description': null,
+        'photo_url': photoUrl,
+        'author_name': authorName,
+        'description': description,
         'name': name,
         'total_page_count': totalPageCount,
+        'current_page': currentPage ?? 0,
+        'reader_progress': (currentPage != null && totalPageCount > 0)
+            ? ((currentPage * 100) / totalPageCount).round()
+            : 0,
       });
-    } catch (e) {
-      rethrow;
+    } catch (e, stack) {
+      print('ERROR saving book: $e');
+      print(stack);
+      throw Exception('Book creation failed: $e');
     }
   }
 
@@ -60,7 +82,12 @@ class BookService {
   ) async {
     try {
       updates['updated_at'] = FieldValue.serverTimestamp();
-      await _firestore.collection('book_collection').doc(uid).update(updates);
+      await _firestore
+          .collection('userprofiles')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('book_collection')
+          .doc(uid)
+          .update(updates);
     } catch (e) {
       rethrow;
     }
@@ -69,7 +96,12 @@ class BookService {
   /// Deletes a specific Book from book_collection
   Future<void> deleteBook(String uid) async {
     try {
-      await _firestore.collection('book_collection').doc(uid).delete();
+      await _firestore
+          .collection('userprofiles')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('book_collection')
+          .doc(uid)
+          .delete();
     } catch (e) {
       rethrow;
     }
