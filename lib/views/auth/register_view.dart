@@ -57,7 +57,6 @@ class RegisterView extends StatelessWidget {
         CustomButtonWidget(
           text: 'Continue',
           width: MediaQuery.of(context).size.width * 0.8,
-          accent: true,
           onPressed: () async {
             final name = nameController.text.trim();
             final lastName = lastNameController.text.trim();
@@ -73,6 +72,22 @@ class RegisterView extends StatelessWidget {
                 password: password);
 
             await user.register(password: password, context: context);
+
+            showCupertinoDialog(
+              context: context,
+              builder: (_) => CupertinoAlertDialog(
+                title: Text(
+                    'Login ${viewModel.statusMessage?.contains('successful') == true ? 'Successful' : 'Failed'}'),
+                content: Text(viewModel.statusMessage ?? ''),
+                actions: [
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    child: const Text('OK'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            );
           },
         ),
         const SizedBox(height: 12),

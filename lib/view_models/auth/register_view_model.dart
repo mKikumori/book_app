@@ -2,12 +2,14 @@ import 'package:book_app/services/user_srevice.dart';
 import 'package:book_app/views/app/home_view.dart';
 import 'package:book_app/views/auth/register_view.dart';
 import 'package:book_app/services/auth_service.dart';
+import 'package:book_app/widgets/custom_nav_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationViewModel extends ChangeNotifier {
   final UserService _userService = UserService();
   final AuthService _authService = AuthService();
+  String? _statusMessage;
 
   String? _firstName;
   String? _lastName;
@@ -23,6 +25,7 @@ class RegistrationViewModel extends ChangeNotifier {
   String? get password => _password;
   bool get isLoading => _isLoading;
   String? get uid => _uid;
+  String? get statusMessage => _statusMessage;
 
   // Setters
   void setFirstName(String value) {
@@ -70,7 +73,8 @@ class RegistrationViewModel extends ChangeNotifier {
     required BuildContext context,
   }) async {
     if (_email == null || _password == null) {
-      // Handle error: email and password must not be null
+      _statusMessage = 'Please fill in all fields.';
+      notifyListeners();
       return;
     }
 
@@ -86,20 +90,21 @@ class RegistrationViewModel extends ChangeNotifier {
         lastName: _lastName!,
         email: _email!,
       );
+      _statusMessage = 'Registration successful for ${_email!}!';
 
       Navigator.push(
         context,
-        CupertinoPageRoute(builder: (_) => HomeView()),
+        CupertinoPageRoute(builder: (_) => CustomNavBar()),
       );
-      // Registration successful, you can perform additional actions here
     } on FirebaseAuthException catch (e) {
-      // Handle registration errors here
-      print('Registration error: ${e.message}');
+      _statusMessage = e.message ?? 'Registration failed. Please try again.';
       Navigator.pushAndRemoveUntil(
         context,
         CupertinoPageRoute(builder: (_) => const RegisterView()),
         (route) => false,
       );
+    } catch (e) {
+      _statusMessage = 'Unexpected error: $e';
     } finally {
       setLoading(false);
     }
