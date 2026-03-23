@@ -1,3 +1,4 @@
+import 'package:book_app/view_models/app/create_book_viewmodel.dart';
 import 'package:book_app/view_models/auth/login_view_model.dart';
 import 'package:book_app/view_models/auth/psw_reset_view_model.dart';
 import 'package:book_app/view_models/auth/register_view_model.dart';
@@ -33,6 +34,7 @@ class MainApp extends StatelessWidget {
               ChangeNotifierProvider(create: (_) => RegistrationViewModel()),
               ChangeNotifierProvider(create: (_) => LoginViewModel()),
               ChangeNotifierProvider(create: (_) => PasswordResetViewModel()),
+              ChangeNotifierProvider(create: (_) => CreateBookViewmodel()),
             ],
             child: CupertinoApp(
                 title: 'Book App',

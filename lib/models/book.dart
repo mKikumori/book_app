@@ -58,7 +58,10 @@ class Book {
       'total_page_count': totalPageCount,
       'description': description,
       'current_page': currentPage,
-      'reader_progress': ((currentPage! * 100) / totalPageCount!).round(),
+      'reader_progress':
+          (currentPage != null && totalPageCount != null && totalPageCount! > 0)
+              ? ((currentPage! * 100) / totalPageCount!).round()
+              : 0,
       'created_at': Timestamp.fromDate(createdAt),
       'updated_at': Timestamp.fromDate(updatedAt),
     };
