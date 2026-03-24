@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
 class BookDetailsView extends StatelessWidget {
-  const BookDetailsView({super.key, required uid});
+  final dynamic uid;
 
-  get uid => '';
+  const BookDetailsView({super.key, required this.uid});
 
   @override
   Widget build(BuildContext context) {

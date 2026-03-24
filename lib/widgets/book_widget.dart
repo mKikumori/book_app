@@ -1,9 +1,11 @@
+import 'package:book_app/services/auth_service.dart';
+import 'package:book_app/services/book_service.dart';
 import 'package:book_app/views/app/book_details_view.dart';
+import 'package:book_app/widgets/custom_progress_bar_widget.dart';
 import 'package:flutter/cupertino.dart';
 
 class BookWidget extends StatelessWidget {
   final dynamic book;
-
   const BookWidget({super.key, required this.book});
 
   @override
@@ -52,6 +54,12 @@ class BookWidget extends StatelessWidget {
                       style: const TextStyle(
                           fontSize: 14, color: CupertinoColors.systemGrey),
                     ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    CustomProgressBarWidget(
+                        value: ((book.currentPage ?? 0) /
+                            (book.totalPageCount ?? 1)))
                   ],
                 ),
               ),
