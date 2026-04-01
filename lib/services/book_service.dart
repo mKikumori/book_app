@@ -44,7 +44,6 @@ class BookService {
     required int totalPageCount,
     required String userId,
     String? authorName,
-    String? description,
     String? photoUrl,
     int? currentPage,
   }) async {
@@ -60,7 +59,6 @@ class BookService {
         'updated_at': now,
         'photo_url': photoUrl,
         'author_name': authorName,
-        'description': description,
         'name': name,
         'total_page_count': totalPageCount,
         'current_page': currentPage ?? 0,
@@ -105,5 +103,46 @@ class BookService {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<void> startReading(String uid) async {
+    await _firestore
+        .collection('userprofiles')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('book_collection')
+        .doc(uid)
+        .update({
+      'last_start_time': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> stopReading(String uid) async {
+    final doc = await _firestore
+        .collection('userprofiles')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('book_collection')
+        .doc(uid)
+        .get();
+
+    final data = doc.data()!;
+    final lastStart = data['last_start_time'];
+
+    if (lastStart == null) return;
+
+    final startTime = (lastStart as Timestamp).toDate();
+    final now = DateTime.now();
+    final sessionTime = now.difference(startTime).inSeconds;
+
+    final total = data['total_reading_time'] ?? 0;
+
+    await _firestore
+        .collection('userprofiles')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('book_collection')
+        .doc(uid)
+        .update({
+      'total_reading_time': total + sessionTime,
+      'last_start_time': null,
+    });
   }
 }

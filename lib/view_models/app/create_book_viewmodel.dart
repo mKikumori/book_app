@@ -7,7 +7,6 @@ class CreateBookViewmodel extends ChangeNotifier {
   final AuthService _authService = AuthService();
   final TextEditingController bookNameController = TextEditingController();
   final TextEditingController authorNameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
   final TextEditingController totalPageCountController =
       TextEditingController();
   final TextEditingController currentPageController = TextEditingController();
@@ -26,7 +25,6 @@ class CreateBookViewmodel extends ChangeNotifier {
   void dispose() {
     bookNameController.dispose();
     authorNameController.dispose();
-    descriptionController.dispose();
     totalPageCountController.dispose();
     currentPageController.dispose();
     super.dispose();
@@ -35,13 +33,11 @@ class CreateBookViewmodel extends ChangeNotifier {
   Future<void> createBook() async {
     final name = bookNameController.text;
     final author = authorNameController.text;
-    final description = descriptionController.text;
     final totalPages = int.tryParse(totalPageCountController.text);
     final currentPage = int.tryParse(currentPageController.text);
 
     if (name.isEmpty ||
         author.isEmpty ||
-        description.isEmpty ||
         totalPages == null ||
         totalPages != int.parse(totalPageCountController.text) ||
         currentPage == null ||
@@ -58,7 +54,6 @@ class CreateBookViewmodel extends ChangeNotifier {
         name: name,
         totalPageCount: totalPages,
         authorName: author,
-        description: description,
         currentPage: currentPage,
         userId: _authService.currentUser!.uid,
       );

@@ -37,10 +37,6 @@ class CreateBookView extends StatelessWidget {
               text: 'Author Name:', controller: viewModel.authorNameController),
           const SizedBox(height: 10),
           CustomTextFieldWidget(
-              text: 'Description:',
-              controller: viewModel.descriptionController),
-          const SizedBox(height: 10),
-          CustomTextFieldWidget(
               text: 'Total Page Count:',
               controller: viewModel.totalPageCountController),
           const SizedBox(height: 10),
